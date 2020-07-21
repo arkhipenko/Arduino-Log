@@ -11,8 +11,9 @@ ArduinoLog is a minimalistic framework to help the programmer output log stateme
 
 * Different log levels (Error, Info, Warn, Debug, Verbose )
 * Supports multiple variables
-* Supports formatted strings 
+* Supports formatted strings and Strings
 * Supports formatted strings from flash memory
+* Supports **IPAddress** type
 * Fixed memory allocation (zero malloc)
 * MIT License
 
@@ -20,13 +21,14 @@ ArduinoLog is a minimalistic framework to help the programmer output log stateme
 
 * All Arduino boards (Uno, Due, Mini, Micro, Yun...)
 * ESP8266
+* ESP32
 
 ## Downloading
 
 This package has been published to the Arduino & PlatformIO package managers, but you can also download it from GitHub. 
 
 - By directly loading fetching the Archive from GitHub: 
- 1. Go to [https://github.com/thijse/Arduino-Log](https://github.com/thijse/Arduino-Log)
+ 1. Go to [https://github.com/thijse/Arduino-Log](https://github.com/thijse/Arduino-Log) or https://github.com/arkhipenko/Arduino-Log
  2. Click the DOWNLOAD ZIP button in the panel on the
  3. Rename the uncompressed folder **Arduino-Log-master** to **Arduino-Log**.
  4. You may need to create the libraries subfolder if its your first library.  
@@ -38,7 +40,7 @@ This package has been published to the Arduino & PlatformIO package managers, bu
 ## Quick start
 
 ```c++
-    Serial.begin(9600);
+    Serial.begin(115200);
     
     // Initialize with log level and log output. 
     Log.begin   (LOG_LEVEL_VERBOSE, &Serial);
@@ -52,7 +54,7 @@ This package has been published to the Arduino & PlatformIO package managers, bu
 
 ## Usage
 
-### Initialisation
+### Initialization
 
 The log library needs to be initialized with the log level of messages to show and the log output. The latter will often be the Serial interface.
 Optionally, you can indicate whether to show the log type (error, debug, etc) for each line.
@@ -99,15 +101,17 @@ where the format string can be used to format the log variables
 
 ```
 * %s	display as string (char*)
-* %S    display as string from flash memory (__FlashStringHelper* or char[] PROGMEM)
+* %S    display as String 
+* %I    display as ip address
+* %P    display as string from flash memory (__FlashStringHelper* or char[] PROGMEM)
 * %c	display as single character
 * %d	display as integer value
 * %l	display as long value
 * %u	display as unsigned long value
 * %x	display as hexadecimal value
 * %X	display as hexadecimal value prefixed by `0x`
-* %b	display as  binary number
-* %B	display as  binary number, prefixed by `0b'
+* %b	display as binary number
+* %B	display as binary number, prefixed by `0b'
 * %t	display as boolean value "t" or "f"
 * %T	display as boolean value "true" or "false"
 * %D,%F display as double value
@@ -152,7 +156,7 @@ void logError() {
 ```c++
 #define DISABLE_LOGGING 
 ```
-in `Logging.h`. This may significantly reduce your project size.
+before the include file in `ArduinoLog.h`. This will significantly reduce your project size.
 
 ## Credit
 
@@ -176,3 +180,11 @@ Bugfixes & features by
 ## Copyright
 
 ArduinoLog is provided Copyright © 2017,2018, 2019 under MIT License.
+
+## Changes by Arkhipenko
+
+- Definition and implementation combined into one file (Arduino IDE compatibility issue)
+  As a result compilation control options could be maintained in the sketch, not need to edit the library file
+- "%S" represents a `String()` object (similar to %s - represents `string` objects (or `char*`))
+- "%P" represents string from flash memory (__FlashStringHelper* or char[] PROGMEM)
+- "%I" represents an IP address

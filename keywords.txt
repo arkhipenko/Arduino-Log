@@ -6,7 +6,9 @@
 #	Instances	(KEYWORD1)
 #######################################
 Logging	KEYWORD1
-Log	    KEYWORD1
+Log	KEYWORD1
+ArduinoLog	KEYWORD1
+
 #######################################
 #	Datatypes	(KEYWORD1)
 #######################################
