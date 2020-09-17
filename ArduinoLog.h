@@ -18,6 +18,7 @@
 #include <stdarg.h>
 #if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
+#include "Ethernet.h"
 #else
 #include "WProgram.h"
 #endif
@@ -153,6 +154,13 @@ class Logging
     */
     void setSuffix(printfunction f);
 
+    /**
+       Sets an output handler for the Log entires.
+
+       \param output - pointer to the Print object
+       \return void
+    */
+    void setOutput( Print *output );
     /**
        Output a fatal error message. Output message contains
        F: followed by original message
@@ -366,6 +374,13 @@ int Logging::getLevel() const
   return _level;
 #else
   return 0;
+#endif
+}
+
+void Logging::setOutput(Print* output)
+{
+#ifndef DISABLE_LOGGING
+  _logOutput = output;
 #endif
 }
 
