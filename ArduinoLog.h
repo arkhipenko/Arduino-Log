@@ -309,7 +309,9 @@ class Logging
 #endif
 };
 
+#ifndef DISABLE_STATIC_LOG
 extern Logging Log;
+#endif  //  #ifndef DISABLE_STATIC_LOG
 #endif
 
 
@@ -462,6 +464,7 @@ void Logging::printFormat(const char format, va_list *args) {
     register char *s = (char *)va_arg(*args, int);
     _logOutput->print(s);
   }
+#if !defined(ESP8266)
   else if (format == 'S')
   {
     String s = (String)va_arg(*args, String);
@@ -474,6 +477,7 @@ void Logging::printFormat(const char format, va_list *args) {
     sprintf(s, "%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3]);
     _logOutput->print(s);
   }
+#endif
   else if (format == 'P')
   {
     register __FlashStringHelper *s = (__FlashStringHelper *)va_arg(*args, int);
@@ -542,5 +546,6 @@ void Logging::printFormat(const char format, va_list *args) {
 #endif
 }
 
+#ifndef DISABLE_STATIC_LOG
 Logging Log = Logging();
-
+#endif
